@@ -8,6 +8,7 @@ inf
 inf
 inf
 inf
+inf
 574.64
 494.577
 424.675

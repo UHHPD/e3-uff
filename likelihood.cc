@@ -44,5 +44,7 @@ int main() {
     L *= poisson(k, k);
   }
 
-  std::cout << -2*log(prob(daten, 3.11538)/L) << std::endl;
+  std::cout << -2 * log(prob(daten, 3.11538)/L) << std::endl;
+
+  std::cout << (-2 * log(prob(daten, 3.11538)/L)-233) / sqrt(2 * 233) << std::endl; 
 }

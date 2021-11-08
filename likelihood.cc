@@ -1,20 +1,50 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cmath>
 
 
 double poisson(double mu, int k) {
-    return 0;
+  return pow(mu, k) * exp(-mu) / tgamma(k+1);
+}
+
+double prob(std::vector<int> daten, double mu) {
+  double L = 1;
+  for(int k : daten){
+    L *= poisson(mu, k);
+  }
+  return L;
 }
 
 int main() {
-    using namespace std;
+  std::ifstream fin("datensumme.txt");
+  int n_i;
+  std::vector<int> daten;
+  for(int i = 0 ; i < 234 ; ++i) {
+    fin >> n_i;
+    daten.push_back(n_i);
+  }
+  fin.close();
+  std::cout << prob(daten, 3.11538) << std::endl;
 
+  std::ofstream fout("likelihood.txt");
+  std::ofstream fout2("nll.txt");
+  std::ofstream fout3("deltanll.txt");
+  for(double mu = 0; mu <= 6; mu += 0.001) {
+    fout << mu << " " << prob(daten, mu) << std::endl;
+    fout2 << mu << " " << -2*log(prob(daten, mu)) << std::endl;
+    fout3 << mu << " " << -2*log(prob(daten, mu)) + 2*log(prob(daten, 3.11538)) << std::endl;
+  }
+  fout.close();
+  fout2.close();
+  fout3.close();
 
-    ifstream fin("datensumme.txt");
-    int n_i;
-    for(int i = 0 ; i < 234 ; ++i) {
-        fin >> n_i;
-    }
-    fin.close();
+  double L = 1;
+  for(int k : daten){
+    L *= poisson(k, k);
+  }
+
+  std::cout << -2 * log(prob(daten, 3.11538)/L) << std::endl;
+
+  std::cout << (-2 * log(prob(daten, 3.11538)/L)-233) / sqrt(2 * 233) << std::endl; 
 }

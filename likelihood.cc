@@ -30,10 +30,10 @@ int main() {
   std::ofstream fout("likelihood.txt");
   std::ofstream fout2("nll.txt");
   std::ofstream fout3("deltanll.txt");
-  for(double mu = 0; mu <= 6; mu += 0.1) {
+  for(double mu = 0; mu <= 6; mu += 0.001) {
     fout << mu << " " << prob(daten, mu) << std::endl;
     fout2 << mu << " " << -2*log(prob(daten, mu)) << std::endl;
-    fout3 << -2*log(prob(daten, mu)) + 2*log(prob(daten, 3.11538)) << std::endl;
+    fout3 << mu << " " << -2*log(prob(daten, mu)) + 2*log(prob(daten, 3.11538)) << std::endl;
   }
   fout.close();
   fout2.close();
